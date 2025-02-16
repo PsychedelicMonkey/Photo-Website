@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\PostStatus;
 use App\Traits\HasTags;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,6 +15,21 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+/**
+ * @property string $id
+ * @property string $blog_author_id
+ * @property ?string $blog_category_id
+ * @property string $title
+ * @property string $slug
+ * @property string $content
+ * @property ?CarbonInterface $published_at
+ * @property PostStatus $status
+ * @property CarbonInterface $created_at
+ * @property CarbonInterface $updated_at
+ * @property ?CarbonInterface $deleted_at
+ * @property Author $author
+ * @property Category $category
+ */
 class Post extends Model implements HasMedia
 {
     /** @use HasFactory<\Database\Factories\PostFactory> */
