@@ -6,6 +6,8 @@ use App\Filament\Resources\MediaResource\Pages;
 use App\Models\Media;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists\Components;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
@@ -16,7 +18,11 @@ class MediaResource extends Resource
 {
     protected static ?string $model = Media::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $navigationIcon = 'heroicon-o-photo';
+
+    protected static ?string $label = 'Uploads';
 
     public static function form(Form $form): Form
     {
@@ -76,7 +82,73 @@ class MediaResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->groups([
+                Tables\Grouping\Group::make('created_at')
+                    ->collapsible()
+                    ->date()
+                    ->label('Uploaded date'),
+            ])
+            ->defaultSort('created_at', 'desc');
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Components\Split::make([
+                    Components\ImageEntry::make('image')
+                        ->getStateUsing(fn (Media $record) => $record->getUrl())
+                        ->grow(false)
+                        ->hiddenLabel(),
+
+                    Components\Tabs::make('Tabs')
+                        ->tabs([
+                            Components\Tabs\Tab::make('Details')
+                                ->schema([
+                                    Components\TextEntry::make('name')
+                                        ->label('Original file name'),
+
+                                    Components\TextEntry::make('file_name'),
+
+                                    Components\TextEntry::make('mime_type'),
+
+                                    Components\TextEntry::make('created_at')
+                                        ->date(),
+
+                                    Components\TextEntry::make('updated_at')
+                                        ->date()
+                                        ->label('Last modified at'),
+                                ]),
+
+                            Components\Tabs\Tab::make('Properties')
+                                ->schema([
+                                    Components\TextEntry::make('custom_properties.caption')
+                                        ->label('Caption'),
+
+                                    Components\IconEntry::make('custom_properties.explicit')
+                                        ->boolean()
+                                        ->default(false)
+                                        ->label('Contains explicit content'),
+
+                                    Components\SpatieTagsEntry::make('tags'),
+                                ]),
+
+                            Components\Tabs\Tab::make('Conversions')
+                                ->schema([
+                                    Components\KeyValueEntry::make('generated_conversions'),
+
+                                    Components\ImageEntry::make('icon')
+                                        ->getStateUsing(fn (Media $record): string => $record->getUrl('icon'))
+                                        ->width(80)
+                                        ->height(80),
+                                ]),
+                        ]),
+                ])
+                    ->from('lg'),
+            ])
+            ->columns(1)
+            ->inlineLabel();
     }
 
     public static function getPages(): array
