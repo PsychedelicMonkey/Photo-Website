@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Carbon\CarbonInterface;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,7 +28,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property ?CarbonInterface $deleted_at
  * @property Profile $profile
  */
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens;
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -95,5 +97,13 @@ class User extends Authenticatable
     public function prunable(): Builder
     {
         return static::where('deleted_at', '<=', now()->subMonth());
+    }
+
+    /**
+     * Determine if the user has permission to access Filament.
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
     }
 }
