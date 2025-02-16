@@ -49,10 +49,10 @@ class DatabaseSeeder extends Seeder
         $this->withProgressBar(50, fn () => PortfolioModel::factory(1)
             ->has(
                 Album::factory(5)
-                ->hasAttached($tags->random(rand(2, 6))),
+                    ->hasAttached($tags->random(rand(2, 6))),
                 'albums'
             )
-        ->create());
+            ->create());
         $this->command->info('Portfolio models and albums created.');
 
         // Blog

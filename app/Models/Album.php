@@ -57,7 +57,7 @@ class Album extends Model implements HasMedia
     /** @return BelongsTo<PortfolioModel, $this> */
     public function model(): BelongsTo
     {
-        return $this->belongsTo(PortfolioModel::class, 'blog_model_id');
+        return $this->belongsTo(PortfolioModel::class, 'portfolio_model_id');
     }
 
     public function registerMediaCollections(): void

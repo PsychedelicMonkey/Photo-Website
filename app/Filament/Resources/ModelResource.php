@@ -3,32 +3,55 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ModelResource\Pages;
-use App\Filament\Resources\ModelResource\RelationManagers;
 use App\Models\Model;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ModelResource extends Resource
 {
     protected static ?string $model = Model::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $slug = 'portfolio/models';
+
+    protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $navigationGroup = 'Portfolio';
+
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required(),
-                Forms\Components\TextInput::make('gender')
-                    ->required(),
-                Forms\Components\Textarea::make('bio')
-                    ->columnSpanFull(),
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->required(),
+
+                        Forms\Components\ToggleButtons::make('gender')
+                            ->inline()
+                            ->options([
+                                'male' => 'Male',
+                                'female' => 'Female',
+                                'other' => 'Other',
+                            ])
+                            ->required(),
+
+                        Forms\Components\SpatieMediaLibraryFileUpload::make('avatar')
+                            ->avatar()
+                            ->collection('model-avatars')
+                            ->image()
+                            ->imageEditor(),
+
+                        Forms\Components\RichEditor::make('bio')
+                            ->columnSpanFull(),
+                    ])
+                    ->columns(2),
             ]);
     }
 
