@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\MassPrunable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -23,6 +24,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property CarbonInterface $created_at
  * @property CarbonInterface $updated_at
  * @property ?CarbonInterface $deleted_at
+ * @property Profile $profile
  */
 class User extends Authenticatable
 {
@@ -68,6 +70,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        parent::booted();
+
+        static::created(function (User $user) {
+            $user->profile()->create();
+        });
+    }
+
+    /** @return HasOne<Profile, $this> */
+    public function profile(): HasOne
+    {
+        return $this->hasOne(Profile::class);
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -11,6 +13,11 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
+    /**
+     * @var class-string<User>
+     */
+    protected $model = User::class;
+
     /**
      * The current password being used by the factory.
      */
@@ -40,5 +47,14 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    public function configure(): UserFactory
+    {
+        return $this->afterCreating(function (User $user) {
+            $profile = Profile::factory()->make();
+
+            $user->profile()->update($profile->toArray());
+        });
     }
 }
