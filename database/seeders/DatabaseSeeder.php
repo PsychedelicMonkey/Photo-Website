@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Album;
 use App\Models\Author;
 use App\Models\Category;
+use App\Models\Model as PortfolioModel;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
@@ -41,6 +43,17 @@ class DatabaseSeeder extends Seeder
         $tags = $this->withProgressBar(100, fn () => Tag::factory(1)
             ->create());
         $this->command->info('Tags created.');
+
+        // Portfolio
+        $this->command->warn(PHP_EOL . 'Creating portfolio models and albums...');
+        $this->withProgressBar(50, fn () => PortfolioModel::factory(1)
+            ->has(
+                Album::factory(5)
+                ->hasAttached($tags->random(rand(2, 6))),
+                'albums'
+            )
+        ->create());
+        $this->command->info('Portfolio models and albums created.');
 
         // Blog
         $this->command->warn(PHP_EOL . 'Creating blog categories...');
