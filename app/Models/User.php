@@ -84,6 +84,12 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         });
     }
 
+    /** @return HasOne<Author, $this> */
+    public function author(): HasOne
+    {
+        return $this->hasOne(Author::class);
+    }
+
     /** @return HasOne<Profile, $this> */
     public function profile(): HasOne
     {

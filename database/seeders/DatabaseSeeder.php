@@ -2,6 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Author;
+use App\Models\Category;
+use App\Models\Post;
+use App\Models\Tag;
 use App\Models\User;
 use Closure;
 use Illuminate\Database\Eloquent\Collection;
@@ -31,6 +35,29 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@example.com',
         ]));
         $this->command->info('Admin user created.');
+
+        // Tags
+        $this->command->warn(PHP_EOL . 'Creating tags...');
+        $tags = $this->withProgressBar(100, fn () => Tag::factory(1)
+            ->create());
+        $this->command->info('Tags created.');
+
+        // Blog
+        $this->command->warn(PHP_EOL . 'Creating blog categories...');
+        $categories = $this->withProgressBar(20, fn () => Category::factory(1)
+            ->create());
+        $this->command->info('Blog categories created.');
+
+        $this->command->warn(PHP_EOL . 'Creating blog authors and posts...');
+        $this->withProgressBar(20, fn () => Author::factory(1)
+            ->has(
+                Post::factory(5)
+                    ->hasAttached($tags->random(rand(3, 5)))
+                    ->state(fn (array $attributes, Author $author) => ['blog_category_id' => $categories->random(1)->first()->id]),
+                'posts'
+            )
+            ->create());
+        $this->command->info('Blog authors and posts created.');
     }
 
     /** @return Collection<string, Model> */
