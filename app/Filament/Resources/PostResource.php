@@ -65,6 +65,8 @@ class PostResource extends Resource
                             ->inline()
                             ->options(PostStatus::class)
                             ->required(),
+
+                        Forms\Components\SpatieTagsInput::make('tags'),
                     ])
                     ->columns(2),
 

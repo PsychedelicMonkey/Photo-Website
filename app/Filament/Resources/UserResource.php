@@ -109,6 +109,10 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('avatar')
+                    ->circular()
+                    ->getStateUsing(fn (User $record) => $record->profile->getAvatarUrl('icon')),
+
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
