@@ -42,6 +42,8 @@ class DatabaseSeeder extends Seeder
             $items = $items->merge(
                 $createCollectionOfOne()
             );
+
+            $progressBar->advance();
         }
 
         $progressBar->finish();
