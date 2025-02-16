@@ -47,6 +47,12 @@ class UserResource extends Resource
                         Forms\Components\Section::make('Profile')
                             ->relationship('profile')
                             ->schema([
+                                Forms\Components\SpatieMediaLibraryFileUpload::make('avatar')
+                                    ->avatar()
+                                    ->collection('profile-avatars')
+                                    ->image()
+                                    ->imageEditor(),
+
                                 Forms\Components\Textarea::make('bio'),
 
                                 Forms\Components\Toggle::make('is_public')
