@@ -25,6 +25,8 @@ class ManageMedia extends ManageRecords
             'all' => Tab::make('All'),
             'avatars' => Tab::make('Avatars')
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('collection_name', 'profile-avatars')),
+            'post-images' => Tab::make('Post Images')
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('collection_name', 'post-images')),
         ];
     }
 }
