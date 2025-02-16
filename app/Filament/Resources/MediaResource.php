@@ -144,8 +144,7 @@ class MediaResource extends Resource
                                         ->height(80),
                                 ]),
                         ]),
-                ])
-                    ->from('lg'),
+                ])->from('lg'),
             ])
             ->columns(1)
             ->inlineLabel();
