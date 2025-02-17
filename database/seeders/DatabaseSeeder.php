@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Album;
-use App\Models\Author;
-use App\Models\Category;
-use App\Models\Model as PortfolioModel;
-use App\Models\Post;
+use App\Models\Blog\Author;
+use App\Models\Blog\Category;
+use App\Models\Blog\Post;
+use App\Models\Portfolio\Album;
+use App\Models\Portfolio\Model as PortfolioModel;
 use App\Models\Tag;
 use App\Models\User;
 use Closure;
