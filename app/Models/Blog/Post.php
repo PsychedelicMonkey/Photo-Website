@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -91,6 +92,41 @@ class Post extends Model implements HasMedia
     public function prunable(): Builder
     {
         return static::where('deleted_at', '<=', now()->subMonth());
+    }
+
+    /**
+     * Determine if the post is published.
+     */
+    public function isPublished(): bool
+    {
+        return $this->status === PostStatus::Published && $this->published_at?->isPast();
+    }
+
+    /**
+     * Return a preview of the post's content.
+     *
+     * @param int $words
+     * @return string
+     */
+    public function getShortBody(int $words = 30): string
+    {
+        return Str::words(strip_tags($this->content), $words);
+    }
+
+    /**
+     * Return the post's media object.
+     */
+    public function getImage(): ?Media
+    {
+        return $this->getFirstMedia('post-images');
+    }
+
+    /**
+     * Return the post's image URL.
+     */
+    public function getImageUrl(string $conversionName = ''): ?string
+    {
+        return $this->getFirstMediaUrl('post-images', $conversionName);
     }
 
     public function registerMediaCollections(): void
