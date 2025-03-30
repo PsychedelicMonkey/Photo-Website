@@ -60,6 +60,21 @@ class Album extends Model implements HasMedia
         return $this->belongsTo(PortfolioModel::class, 'portfolio_model_id');
     }
 
+    public function isVisible(): bool
+    {
+        return $this->is_visible;
+    }
+
+    public function getShootingDate(): string
+    {
+        return $this->shooting_date->format('F jS, Y');
+    }
+
+    public function getUploadedDate(): string
+    {
+        return $this->created_at->format('F jS, Y');
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('album-photos');

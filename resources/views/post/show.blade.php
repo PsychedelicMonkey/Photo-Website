@@ -8,17 +8,21 @@
             <div class="mt-4">
                 <h1 class="text-5xl font-bold text-gray-900">{{ $post->title }}</h1>
 
-                <div class="mt-6 flex items-baseline md:gap-4 flex-col md:flex-row">
+                <div class="mt-6 flex flex-col items-baseline md:flex-row md:gap-4">
                     <h3>{{ $post->author->name }}</h3>
                     <h3>{{ $post->category->name }}</h3>
-                    <h3>{{ $post->published_at->format('F jS, Y') }}</h3>
+                    <h3>{{ $post->published_at->format("F jS, Y") }}</h3>
                 </div>
 
-                @if(count($post->tags) > 0)
-                    <div class="mt-3 flex-wrap flex gap-1">
-                        @foreach($post->tags as $tag)
-                            <a href="#"
-                               class="bg-gray-300 px-3 py-1 rounded-lg text-xs hover:bg-transparent border border-gray-300 hover:text-gray-500 duration-200">{{ $tag->name }}</a>
+                @if (count($post->tags) > 0)
+                    <div class="mt-3 flex flex-wrap gap-1">
+                        @foreach ($post->tags as $tag)
+                            <a
+                                href="#"
+                                class="rounded-lg border border-gray-300 bg-gray-300 px-3 py-1 text-xs duration-200 hover:bg-transparent hover:text-gray-500"
+                            >
+                                {{ $tag->name }}
+                            </a>
                         @endforeach
                     </div>
                 @endif
