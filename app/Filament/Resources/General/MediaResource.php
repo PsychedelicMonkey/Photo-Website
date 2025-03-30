@@ -47,7 +47,7 @@ class MediaResource extends Resource
             ->columns([
                 Tables\Columns\Layout\Stack::make([
                     Tables\Columns\ImageColumn::make('image')
-                        ->getStateUsing(fn (Media $record) => $record->getUrl())
+                        ->getStateUsing(fn (Media $record) => $record->getUrl('grid'))
                         ->height('100%')
                         ->width('100%'),
 

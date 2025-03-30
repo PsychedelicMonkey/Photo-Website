@@ -104,9 +104,6 @@ class Post extends Model implements HasMedia
 
     /**
      * Return a preview of the post's content.
-     *
-     * @param int $words
-     * @return string
      */
     public function getShortBody(int $words = 30): string
     {

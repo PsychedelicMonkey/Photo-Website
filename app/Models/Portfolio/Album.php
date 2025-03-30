@@ -71,5 +71,8 @@ class Album extends Model implements HasMedia
             ->nonQueued()
             ->fit(Fit::Crop, 80, 80)
             ->sharpen(10);
+
+        $this->addMediaConversion('grid')
+            ->fit(Fit::Crop, 300, 300);
     }
 }

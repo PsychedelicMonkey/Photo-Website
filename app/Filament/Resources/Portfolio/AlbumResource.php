@@ -84,10 +84,14 @@ class AlbumResource extends Resource
                     ->schema([
                         Forms\Components\SpatieMediaLibraryFileUpload::make('photos')
                             ->collection('album-photos')
+                            ->downloadable()
                             ->hiddenLabel()
                             ->image()
                             ->imageEditor()
-                            ->multiple(),
+                            ->multiple()
+                            ->openable()
+                            ->panelLayout('grid')
+                            ->previewable(),
                     ])
                     ->collapsible(),
             ]);
