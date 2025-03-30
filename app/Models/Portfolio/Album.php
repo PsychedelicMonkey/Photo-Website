@@ -4,6 +4,8 @@ namespace App\Models\Portfolio;
 
 use App\Models\Portfolio\Model as PortfolioModel;
 use App\Traits\HasTags;
+use CyrildeWit\EloquentViewable\Contracts\Viewable;
+use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,13 +16,14 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Album extends Model implements HasMedia
+class Album extends Model implements HasMedia, Viewable
 {
     /** @use HasFactory<\Database\Factories\Portfolio\AlbumFactory> */
     use HasFactory;
     use HasTags;
     use HasUlids;
     use InteractsWithMedia;
+    use InteractsWithViews;
     use SoftDeletes;
 
     /**

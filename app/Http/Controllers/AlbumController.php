@@ -27,6 +27,10 @@ class AlbumController extends Controller
 
         $album->load(['media', 'tags']);
 
+        views($album)
+            ->cooldown(now()->addHour())
+            ->record();
+
         return view('album.show', compact('album'));
     }
 }
