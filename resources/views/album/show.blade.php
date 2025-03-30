@@ -38,11 +38,11 @@
             <div class="grid-sizer"></div>
             @foreach ($album->getMedia("album-photos") as $photo)
                 @php
-                    $size = getimagesize($photo->getUrl());
+                    $size = getimagesize($photo->getUrl('public'));
                 @endphp
 
                 <a
-                    href="{{ $photo->getUrl() }}"
+                    href="{{ $photo->getUrl('public') }}"
                     data-pswp-width="{{ $size[0] }}"
                     data-pswp-height="{{ $size[1] }}"
                     class="grid-item duration-150 hover:opacity-50"

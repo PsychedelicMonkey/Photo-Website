@@ -91,7 +91,8 @@ class AlbumResource extends Resource
                             ->multiple()
                             ->openable()
                             ->panelLayout('grid')
-                            ->previewable(),
+                            ->previewable()
+                            ->reorderable(),
                     ])
                     ->collapsible(),
             ]);

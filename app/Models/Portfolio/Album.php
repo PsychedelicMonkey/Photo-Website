@@ -89,5 +89,9 @@ class Album extends Model implements HasMedia
 
         $this->addMediaConversion('grid')
             ->fit(Fit::Crop, 300, 300);
+
+        $this->addMediaConversion('public')
+            ->nonOptimized()
+            ->fit(Fit::Contain, 1200, 1200);
     }
 }
